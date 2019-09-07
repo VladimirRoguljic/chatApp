@@ -2,17 +2,24 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import {ChatService} from "./chat.service";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {MatTableModule} from '@angular/material/table';
+import { LoginFormComponent } from './components/login-form/login-form.component';
+import {MaterialModuleModule} from "../modules/material-module/material-module.module";
+import {CommonModule} from "@angular/common";
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginFormComponent
   ],
   imports: [
     BrowserModule,
-    MatTableModule,
+    MaterialModuleModule,
+    FormsModule,
+    CommonModule,
+    ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule
   ],
