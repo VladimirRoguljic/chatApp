@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-login-form',
@@ -13,8 +13,8 @@ export class LoginFormComponent implements OnInit {
 
   constructor(private _fb: FormBuilder) {
     this.form = this._fb.group({
-      username: '',
-      password: ''
+      username: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
+      password: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
     });
   }
 
@@ -23,8 +23,13 @@ export class LoginFormComponent implements OnInit {
 
   submit() {
     if (this.form.valid) {
-      this.submitForm.emit(this.form.value)
-    }
+      this.submitForm.emit(this.form.value);
+  }
+}
+
+  get usernameError() {
+     console.log(this.form.get('username').errors);
+    return this.form.get('username').errors
   }
 
 }

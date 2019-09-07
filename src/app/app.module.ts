@@ -7,12 +7,14 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import {MaterialModuleModule} from "../modules/material-module/material-module.module";
 import {CommonModule} from "@angular/common";
+import { ErrorMessageComponent } from './components/error-message/error-message.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginFormComponent
+    LoginFormComponent,
+    ErrorMessageComponent
   ],
   imports: [
     BrowserModule,
