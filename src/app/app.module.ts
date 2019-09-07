@@ -8,6 +8,7 @@ import { LoginFormComponent } from './components/login-form/login-form.component
 import {MaterialModuleModule} from "../modules/material-module/material-module.module";
 import {CommonModule} from "@angular/common";
 import { ErrorMessageComponent } from './components/error-message/error-message.component';
+import {GlobalService} from "./services/global.service";
 
 
 @NgModule({
@@ -22,10 +23,9 @@ import { ErrorMessageComponent } from './components/error-message/error-message.
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
-    FormsModule,
     BrowserAnimationsModule
   ],
-  providers: [ChatService],
+  providers: [ChatService, GlobalService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

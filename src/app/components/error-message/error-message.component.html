@@ -1,3 +1,11 @@
-<p>
-  error-message works!
-</p>
+<div *ngIf="object.touched" class="error-message">
+
+  <span  *ngFor="let key of returnErrors(); let i = index">
+
+    <span *ngIf="object.hasError(key) && i == 0">
+     {{returnErrorMessage(key)}}
+    </span>
+
+  </span>
+
+</div>
