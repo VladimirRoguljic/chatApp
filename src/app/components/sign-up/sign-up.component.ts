@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
 import {AuthService} from "../../services/auth.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AngularFireAuth} from "angularfire2/auth";
@@ -16,8 +15,7 @@ export class SignUpComponent implements OnInit {
   constructor(private _fb: FormBuilder,
               private _global: GlobalService,
               private _firebaseAuth: AngularFireAuth,
-              private authService: AuthService,
-              private router: Router) {
+              private authService: AuthService) {
   }
 
   ngOnInit() {

@@ -59,7 +59,14 @@ export class AuthService {
 
 
   signInRegular(email, password) {
-    return this._firebaseAuth.auth.signInWithEmailAndPassword(email, password);
+    return this._firebaseAuth.auth.signInWithEmailAndPassword(email, password).then(value => {
+      if(value) this.router.navigate(['chat-place'])
+    }).catch(err => {
+      Swal.fire({
+        title: `${err.message}`,
+        type: 'warning'
+      });
+    });
   }
 
 

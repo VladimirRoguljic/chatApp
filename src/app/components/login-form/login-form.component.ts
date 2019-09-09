@@ -36,10 +36,7 @@ export class LoginFormComponent implements OnInit {
   submit(form) {
     if (this.form.invalid) return this._global.checkFormErrors(this.form);
       this.authService.signInRegular(form.email, form.password)
-        .then((res) => {
-          this.router.navigate(['chat-place']);
-        })
-        .catch((err) => console.log('error: ' + err));
+        .then((res) => {})
   }
 
 
