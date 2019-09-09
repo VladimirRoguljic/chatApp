@@ -36,8 +36,7 @@ export class SignUpComponent implements OnInit {
 
   submit(form) {
     if (this.form.invalid) return this._global.checkFormErrors(this.form);
-    this.authService.signup(form.email, form.password).then(() => {
-      this.router.navigate(['login']);
+    this.authService.signup(form.email, form.password).then((res) => {
     });
     form.email = form.password = '';
   }

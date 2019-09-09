@@ -3,6 +3,7 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import {Router} from "@angular/router";
 import * as firebase from 'firebase/app';
 import {Observable} from "rxjs";
+import Swal from 'sweetalert2';
 
 
 @Injectable({
@@ -27,16 +28,29 @@ export class AuthService {
     });
   }
 
-  signup(email:string, password: string) {
-   return  this._firebaseAuth.auth.createUserWithEmailAndPassword(email,password).then(value=> {
-        console.log('Success!', value)
-    }).catch(err => {
-        console.log('Something went wrong:', err.message)
+  signup(email: string, password: string) {
+    return this._firebaseAuth.auth.createUserWithEmailAndPassword(email, password).then(value => {
+      if (value) {
+        Swal.fire({
+          title: 'You are successfully create new account',
+          type: 'success',
+        }).then((result) => {
+          if (result.value) {
+            this.router.navigate(['/login']);
+          }
+        });
+      }
     })
+      .catch(err => {
+        Swal.fire({
+          title: `${err.message}`,
+          type: 'warning'
+        });
+      });
   }
 
   isLoggedIn() {
-    if (this.userDetails == null ) {
+    if (this.userDetails == null) {
       return false;
     } else {
       return true;
@@ -45,7 +59,7 @@ export class AuthService {
 
 
   signInRegular(email, password) {
-    return this._firebaseAuth.auth.signInWithEmailAndPassword(email, password)
+    return this._firebaseAuth.auth.signInWithEmailAndPassword(email, password);
   }
 
 
