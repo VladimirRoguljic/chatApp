@@ -1,0 +1,10 @@
+<div style="float: right">
+  <button type="button" class="btn-danger" (click)="logout()">
+    Log out
+  </button>
+</div>
+<div>
+  <h3 style="text-align: center" *ngIf="authService.user | async">Welcome {{ (authService.user | async)?.email}}</h3>
+</div>
+
+

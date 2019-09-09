@@ -1,5 +1,5 @@
 <mat-card>
-  <mat-card-title>Login</mat-card-title>
+  <mat-card-title>SignUp</mat-card-title>
   <mat-card-content>
     <form [formGroup]="form" (ngSubmit)="submit(form.value)">
       <p>
@@ -16,19 +16,11 @@
         <app-error-message [object]="form.get('password')"></app-error-message>
       </p>
 
+
       <div class="button">
-        <button type="button" routerLink="/sign-up" mat-button>SignUp</button>
+        <button type="button" routerLink="/login" mat-button>LogIn</button>
         <button type="submit" mat-button>Submit</button>
-      </div>
-
-
-      <div>
-      <button type="button" mat-button class="btn btn-block" (click)="signInWithGoogle()">
-        <i class="fa fa-google" aria-hidden="true"></i>
-        Login with Google
-      </button>
       </div>
     </form>
   </mat-card-content>
 </mat-card>
-

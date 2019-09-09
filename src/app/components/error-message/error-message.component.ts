@@ -25,6 +25,10 @@ export class ErrorMessageComponent implements OnInit {
 
       maxlength: (value) => {
         return `This field must be maximum ${value.requiredLength} characters`
+      },
+
+      email: () => {
+        return 'This is not valid email address'
       }
     };
 

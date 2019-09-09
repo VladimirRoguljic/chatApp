@@ -1,6 +1,9 @@
 import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {GlobalService} from "../../services/global.service";
+import {AuthService} from "../../services/auth.service";
+import { AngularFireAuth } from 'angularfire2/auth';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login-form',
@@ -9,10 +12,12 @@ import {GlobalService} from "../../services/global.service";
 })
 export class LoginFormComponent implements OnInit {
   form: FormGroup;
-  @Output() submitForm = new EventEmitter();
 
   constructor(private _fb: FormBuilder,
-              private _global: GlobalService,) {
+              private _global: GlobalService,
+              private _firebaseAuth: AngularFireAuth,
+              private authService: AuthService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -21,15 +26,27 @@ export class LoginFormComponent implements OnInit {
 
   buildForm() {
     this.form = this._fb.group({
-      username: ['', Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(12)])],
-      password: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(12)])]
+      email: ['', Validators.compose([Validators.required, Validators.email])],
+
+      password: ['', Validators.compose([Validators.required,
+        Validators.minLength(6), Validators.maxLength(24)])]
     });
   }
 
-  submit() {
+  submit(form) {
     if (this.form.invalid) return this._global.checkFormErrors(this.form);
-    if (this.form.valid) this.submitForm.emit(this.form.value);
+      this.authService.signInRegular(form.email, form.password)
+        .then((res) => {
+          this.router.navigate(['chat-place']);
+        })
+        .catch((err) => console.log('error: ' + err));
+  }
 
+
+  signInWithGoogle() {
+       this.authService.signInWithGoogle().then((res) =>
+         this.router.navigate(['chat-place'])
+    ).catch((err) => console.log(err))
   }
 
 

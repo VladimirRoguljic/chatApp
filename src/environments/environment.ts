@@ -4,7 +4,16 @@
 
 export const environment = {
   production: false,
-  ws_url: 'http://localhost:5000'
+  ws_url: 'http://localhost:5000',
+  firebase: {
+    apiKey: "AIzaSyCK3x4yJEIoyvDMU-cpV9nbdk--hU23FCA",
+    authDomain: "chatapp-project-f5ada.firebaseapp.com",
+    databaseURL: "https://chatapp-project-f5ada.firebaseio.com",
+    projectId: "chatapp-project-f5ada",
+    storageBucket: "",
+    messagingSenderId: "465716890228",
+    appId: "1:465716890228:web:b152c33540ca22aaeb5f21"
+  }
 };
 
 /*
