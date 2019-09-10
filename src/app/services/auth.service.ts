@@ -69,12 +69,19 @@ export class AuthService {
     });
   }
 
+   getAuth() {
+    return this._firebaseAuth.auth;
+   }
   // This will be implemented later
   // signInWithGoogle() {
   //   return this._firebaseAuth.auth.signInWithPopup(
   //     new firebase.auth.GoogleAuthProvider()
   //   );
   // }
+
+  resetPasswordInit(email: string) {
+    return this._firebaseAuth.auth.sendPasswordResetEmail( email, {url: 'http://localhost:4200/login'})
+  }
 
   logout() {
     this._firebaseAuth.auth.signOut()

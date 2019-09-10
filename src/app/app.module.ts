@@ -18,6 +18,7 @@ import {ChatGuard} from "./guards/chat.guard";
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { UsermanagmentComponent } from './components/usermanagment/usermanagment.component';
 
 const appRoutes: Routes = [
   {
@@ -32,6 +33,10 @@ const appRoutes: Routes = [
   {
     path: 'sign-up',
     component: SignUpComponent
+  },
+  {
+    path: 'userMgmt',
+    component: UsermanagmentComponent
   },
   {
     path: 'chat-place',
@@ -51,7 +56,8 @@ const appRoutes: Routes = [
     ChatComponent,
     HomepageComponent,
     NotfoundComponent,
-    SignUpComponent
+    SignUpComponent,
+    UsermanagmentComponent
   ],
   imports: [
     BrowserModule,

@@ -29,7 +29,8 @@ export class ErrorMessageComponent implements OnInit {
 
       email: () => {
         return 'This is not valid email address'
-      }
+      },
+
     };
 
   }
