@@ -69,12 +69,12 @@ export class AuthService {
     });
   }
 
-
-  signInWithGoogle() {
-    return this._firebaseAuth.auth.signInWithPopup(
-      new firebase.auth.GoogleAuthProvider()
-    );
-  }
+  // This will be implemented later
+  // signInWithGoogle() {
+  //   return this._firebaseAuth.auth.signInWithPopup(
+  //     new firebase.auth.GoogleAuthProvider()
+  //   );
+  // }
 
   logout() {
     this._firebaseAuth.auth.signOut()

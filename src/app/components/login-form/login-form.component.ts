@@ -40,11 +40,5 @@ export class LoginFormComponent implements OnInit {
   }
 
 
-  signInWithGoogle() {
-       this.authService.signInWithGoogle().then((res) =>
-         this.router.navigate(['chat-place'])
-    ).catch((err) => console.log(err))
-  }
-
 
 }
