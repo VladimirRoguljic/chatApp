@@ -1,7 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
-import {ChatService} from "./chat.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {LoginFormComponent} from './components/login-form/login-form.component';
@@ -70,7 +69,7 @@ const appRoutes: Routes = [
     AngularFireAuthModule
 
   ],
-  providers: [ChatService, GlobalService, AuthService, ChatGuard],
+  providers: [GlobalService, AuthService, ChatGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {
