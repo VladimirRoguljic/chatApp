@@ -54,6 +54,8 @@ export class UsermanagmentComponent implements OnInit, OnDestroy {
                    Swal.fire({
                        title: 'Your email has been verified',
                        type: 'success'
+                   }).then((result) => {
+                       this.router.navigate(['login'])
                    })
                }).catch((err) => {
                  Swal.fire({
@@ -70,7 +72,7 @@ export class UsermanagmentComponent implements OnInit, OnDestroy {
                   title: 'query parameters are missing',
                   type: 'warning'
                }).then(result => {
-                   if(result.value) this.router.navigate(['/auth/login']);
+                   this.router.navigate(['login']);
                });
 
              }
