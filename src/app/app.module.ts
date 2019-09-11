@@ -18,7 +18,7 @@ import { HomepageComponent } from './components/homepage/homepage.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { UsermanagmentComponent } from './components/usermanagment/usermanagment.component';
-
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 const appRoutes: Routes = [
   {
     path: '',
@@ -66,7 +66,8 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     RouterModule.forRoot(appRoutes),
     AngularFireModule.initializeApp(environment.firebase, 'angular-auth-firebase'),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AngularFirestoreModule
 
   ],
   providers: [GlobalService, AuthService, ChatGuard],
