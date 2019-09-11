@@ -35,17 +35,36 @@ export class UsermanagmentComponent implements OnInit, OnDestroy {
            switch (params['mode']) {
              case this.actions.resetPassword: {
                this.authService.getAuth().verifyPasswordResetCode(this.actionCode)
-                 .then(email => {
+                 .then(password => {
                     this.actionCodeChecked = true;
                  }).catch((err) => {
                      Swal.fire({
                         title: `${err.message}`,
                         type: 'warning'
-                     });
-                     this.router.navigate(['/login'])
+                     }).then(result => {
+                       this.router.navigate(['/login'])
+                     })
+
                })
-             }
-             break;
+             } break;
+
+             case this.actions.verifyEmail: {
+               this.authService.getAuth().applyActionCode(this.actionCode).then((email) => {
+                 this.actionCodeChecked = true;
+                   Swal.fire({
+                       title: 'Your email has been verified',
+                       type: 'success'
+                   })
+               }).catch((err) => {
+                 Swal.fire({
+                     title: `${err.message}`,
+                     type: 'warning'
+                 }).then(result => {
+                     this.router.navigate(['login'])
+                 })
+               })
+             }break;
+
              default: {
                Swal.fire({
                   title: 'query parameters are missing',

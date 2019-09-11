@@ -1,27 +1,39 @@
-<ng-container *ngIf="actionCodeChecked" [ngSwitch]="mode">
-<mat-card>
-  <mat-card-title>Reset Password</mat-card-title>
-  <mat-card-content>
-    <form [formGroup]="form" (ngSubmit)="handleResetPassword(form.value)">
+<ng-container *ngIf="actionCodeChecked"  [ngSwitch]="mode">
+  <ng-container *ngSwitchCase="'resetPassword'">
+    <mat-card>
+      <mat-card-title>Reset Password</mat-card-title>
+      <mat-card-content>
+        <form [formGroup]="form" (ngSubmit)="handleResetPassword(form.value)">
 
-      <p>
-        <mat-form-field>
-          <input type="password" matInput placeholder="new-password" formControlName="newPassword">
-        </mat-form-field>
-        <app-error-message [object]="form.get('newPassword')"></app-error-message>
-      </p>
+          <p>
+            <mat-form-field>
+              <input type="password" matInput placeholder="new-password" formControlName="newPassword">
+            </mat-form-field>
+            <app-error-message [object]="form.get('newPassword')"></app-error-message>
+          </p>
 
-      <p>
-        <mat-form-field>
-          <input type="password" matInput placeholder="confirm-password" formControlName="confirmPassword">
-        </mat-form-field>
-        <app-error-message [object]="form.get('confirmPassword')"></app-error-message>
-      </p>
+          <p>
+            <mat-form-field>
+              <input type="password" matInput placeholder="confirm-password" formControlName="confirmPassword">
+            </mat-form-field>
+            <app-error-message [object]="form.get('confirmPassword')"></app-error-message>
+          </p>
 
-      <div class="button">
-        <button type="submit" mat-button>Submit</button>
-      </div>
-    </form>
-  </mat-card-content>
-</mat-card>
+          <div class="button">
+            <button type="submit" mat-button>Submit</button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+
+
+  <ng-container *ngSwitchCase="'verifyEmail'">
+    <div>
+      <h2>Continue to login page or homepage</h2>
+      <span> <a routerLink="/login">LogIn</a>  <a style="float: right" routerLink="/">Home</a></span>
+    </div>
+  </ng-container>
+
 </ng-container>
+

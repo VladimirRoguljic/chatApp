@@ -35,13 +35,14 @@ export class AuthService {
   signup(email: string, password: string) {
     return this._firebaseAuth.auth.createUserWithEmailAndPassword(email, password).then(value => {
       if (value) {
+        this.sendVerificationMail();
         Swal.fire({
-          title: 'You are successfully create new account',
+          title: 'You are successfully create new account, Verify your email address in your inbox',
           type: 'success',
         }).then((result) => {
-          if (result.value) {
+           if (result.value) {
             this.router.navigate(['/login']);
-          }
+           }
         });
       }
     })
@@ -62,9 +63,21 @@ export class AuthService {
   }
 
 
+  sendVerificationMail() {
+    return this._firebaseAuth.auth.currentUser.sendEmailVerification()
+
+  }
+
   signInRegular(email, password) {
     return this._firebaseAuth.auth.signInWithEmailAndPassword(email, password).then(value => {
-      if(value) this.router.navigate(['chat-place'])
+      if (value.user.emailVerified !==true) {
+        this.sendVerificationMail();
+        Swal.fire({
+            title: 'Please validate your email address. Kindly check your inbox',
+            type: 'warning'
+        })
+      }
+      if(value.user.emailVerified === true) this.router.navigate(['chat-place'])
     }).catch(err => {
       Swal.fire({
         title: `${err.message}`,
@@ -76,12 +89,7 @@ export class AuthService {
    getAuth() {
     return this._firebaseAuth.auth;
    }
-  // This will be implemented later
-  // signInWithGoogle() {
-  //   return this._firebaseAuth.auth.signInWithPopup(
-  //     new firebase.auth.GoogleAuthProvider()
-  //   );
-  // }
+
 
   resetPasswordInit(email: string) {
     return this._firebaseAuth.auth.sendPasswordResetEmail( email, {url: 'http://localhost:4200/login'})
