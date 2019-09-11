@@ -19,6 +19,7 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { UsermanagmentComponent } from './components/usermanagment/usermanagment.component';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import {StorageService} from "./services/storage.service";
 const appRoutes: Routes = [
   {
     path: '',
@@ -70,7 +71,7 @@ const appRoutes: Routes = [
     AngularFirestoreModule
 
   ],
-  providers: [GlobalService, AuthService, ChatGuard],
+  providers: [GlobalService, AuthService, ChatGuard, StorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

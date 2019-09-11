@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../services/auth.service";
-import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from '@angular/fire/firestore';
+import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
 import {Observable} from "rxjs";
+import {StorageService} from "../../services/storage.service";
 
 interface Post {
   title: string;
@@ -33,6 +34,7 @@ export class ChatComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+    StorageService.removeFromLocalStorage()
   }
 
   addPost() {

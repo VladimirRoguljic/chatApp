@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import * as firebase from 'firebase/app';
 import {Observable} from "rxjs";
 import Swal from 'sweetalert2';
+import {StorageService} from "./storage.service";
 
 
 @Injectable({
@@ -18,11 +19,13 @@ export class AuthService {
     this.user = _firebaseAuth.authState;
 
 
+
     this.user.subscribe((user) => {
       if (user) {
         this.userDetails = user;
-        console.log(this.userDetails)
+        StorageService.setDataInLocalStorage('refreshToken', this.userDetails.refreshToken);
       }
+
       else {
         this.userDetails = null;
       }
@@ -50,8 +53,8 @@ export class AuthService {
       });
   }
 
-  isLoggedIn() {
-    if (this.userDetails == null) {
+  static isLoggedIn() {
+    if ( StorageService.getDataFromLocalStorage('refreshToken') == null ) {
       return false;
     } else {
       return true;
