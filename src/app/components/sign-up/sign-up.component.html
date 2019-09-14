@@ -16,6 +16,13 @@
         <app-error-message [object]="form.get('password')"></app-error-message>
       </p>
 
+      <p>
+        <mat-form-field>
+          <input type="text" matInput placeholder="DisplayName" formControlName="displayName">
+        </mat-form-field>
+        <app-error-message [object]="form.get('displayName')"></app-error-message>
+      </p>
+
 
       <div class="button">
         <button type="button" routerLink="/login" mat-button>LogIn</button>

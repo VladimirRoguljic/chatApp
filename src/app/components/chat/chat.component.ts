@@ -1,13 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../services/auth.service";
-import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
-import {Observable} from "rxjs";
 import {StorageService} from "../../services/storage.service";
-
-interface Post {
-  title: string;
-  content: string
-}
+import { AngularFireDatabase } from '@angular/fire/database';
+import {ChatService} from "../../services/chat.service";
+import {Observable} from "rxjs";
+import * as firebase from 'firebase'
 
 
 @Component({
@@ -16,20 +13,17 @@ interface Post {
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
-  postCol: AngularFirestoreCollection<Post>;
-  posts: Observable<Post[]>;
   title: string;
-  content: string;
+  message: string;
+  user: Observable<firebase.User>;
+  userEmail: string;
 
   constructor(public authService: AuthService,
-              private asf: AngularFirestore) {
+              private db: AngularFireDatabase,
+              private chat: ChatService) {
   }
 
   ngOnInit() {
-    this.postCol = this.asf.collection('posts');
-    this.posts = this.postCol.valueChanges();
-
-
   }
 
   logout() {
@@ -37,8 +31,9 @@ export class ChatComponent implements OnInit {
     StorageService.removeFromLocalStorage()
   }
 
-  addPost() {
-    this.asf.collection('posts').add({'title': '', 'content': this.content});
+  send() {
+    this.chat.sendMessage(this.message);
+    this.message = ''
   }
 
 }

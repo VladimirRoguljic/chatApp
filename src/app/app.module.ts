@@ -20,6 +20,11 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { UsermanagmentComponent } from './components/usermanagment/usermanagment.component';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import {StorageService} from "./services/storage.service";
+import {ChatService} from "./services/chat.service";
+import { AngularFireDatabase } from '@angular/fire/database';
+import { FeedComponent } from './components/feed/feed.component';
+import { MessageComponent } from './components/message/message.component';
+import { UserListComponent } from './components/user-list/user-list.component';
 const appRoutes: Routes = [
   {
     path: '',
@@ -57,7 +62,10 @@ const appRoutes: Routes = [
     HomepageComponent,
     NotfoundComponent,
     SignUpComponent,
-    UsermanagmentComponent
+    UsermanagmentComponent,
+    FeedComponent,
+    MessageComponent,
+    UserListComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +79,7 @@ const appRoutes: Routes = [
     AngularFirestoreModule
 
   ],
-  providers: [GlobalService, AuthService, ChatGuard, StorageService],
+  providers: [GlobalService, AuthService, ChatGuard, StorageService, ChatService, AngularFireDatabase],
   bootstrap: [AppComponent]
 })
 export class AppModule {

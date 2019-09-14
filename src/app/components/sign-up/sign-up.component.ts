@@ -28,13 +28,16 @@ export class SignUpComponent implements OnInit {
 
       password: ['',
         Validators.compose([Validators.required,
-          Validators.minLength(7), Validators.maxLength(24)])]
+          Validators.minLength(7), Validators.maxLength(24)])],
+
+      displayName: ['', Validators.compose([Validators.required,
+        Validators.minLength(2), Validators.maxLength(15)])]
     });
   }
 
   submit(form) {
     if (this.form.invalid) return this._global.checkFormErrors(this.form);
-    this.authService.signup(form.email, form.password).then((res) => {
+    this.authService.signUp(form.email, form.password, form.displayName).then((res) => {
     });
     form.email = form.password = '';
   }

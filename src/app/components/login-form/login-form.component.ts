@@ -34,8 +34,7 @@ export class LoginFormComponent implements OnInit {
 
   submit(form) {
     if (this.form.invalid) return this._global.checkFormErrors(this.form);
-      this.authService.signInRegular(form.email, form.password)
-        .then((res) => {})
+      this.authService.login(form.email, form.password)
   }
 
   resetPassword() {
