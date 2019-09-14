@@ -10,7 +10,7 @@
 <app-feed></app-feed>
 <div>
   <label for="message_box"></label>
-  <textarea  rows="4" cols="50" id="message_box" type="text" [(ngModel)]="message"></textarea>
+  <input id="message_box" type="text" (keypress)="handleMessage($event)" [(ngModel)]="message">
   <button mat-button  type="button" (click)="send()">Send</button>
 </div>
 

@@ -5,6 +5,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import {ChatService} from "../../services/chat.service";
 import {Observable} from "rxjs";
 import * as firebase from 'firebase'
+import {emptyScheduled} from "rxjs/internal/observable/empty";
 
 
 @Component({
@@ -34,6 +35,12 @@ export class ChatComponent implements OnInit {
   send() {
     this.chat.sendMessage(this.message);
     this.message = ''
+  }
+
+  handleMessage(event) {
+    if(event.keyCode === 13) {
+      this.send()
+    } else return
   }
 
 }
