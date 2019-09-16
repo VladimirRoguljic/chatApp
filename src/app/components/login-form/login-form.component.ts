@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {GlobalService} from "../../services/global.service";
 import {AuthService} from "../../services/auth.service";
@@ -16,6 +16,7 @@ export class LoginFormComponent implements OnInit {
   constructor(private _fb: FormBuilder,
               private _global: GlobalService,
               private _firebaseAuth: AngularFireAuth,
+              public globalService: GlobalService,
               private authService: AuthService) {
   }
 
@@ -30,6 +31,10 @@ export class LoginFormComponent implements OnInit {
       password: ['', Validators.compose([Validators.required,
         Validators.minLength(6), Validators.maxLength(24)])]
     });
+  }
+
+  showPassword() {
+    this.globalService.showPassword();
   }
 
   submit(form) {

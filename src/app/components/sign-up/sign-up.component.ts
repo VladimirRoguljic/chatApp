@@ -13,7 +13,7 @@ export class SignUpComponent implements OnInit {
   form: FormGroup;
 
   constructor(private _fb: FormBuilder,
-              private _global: GlobalService,
+              public _global: GlobalService,
               private _firebaseAuth: AngularFireAuth,
               private authService: AuthService) {
   }
@@ -40,6 +40,10 @@ export class SignUpComponent implements OnInit {
     this.authService.signUp(form.email, form.password, form.displayName).then((res) => {
     });
     form.email = form.password = '';
+  }
+
+  showPassword() {
+    this._global.showPassword()
   }
 
 

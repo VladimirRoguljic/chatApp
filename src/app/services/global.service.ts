@@ -6,6 +6,8 @@ import * as _ from 'lodash'
   providedIn: 'root'
 })
 export class GlobalService {
+  public show_password: boolean = false;
+
 
   constructor() { }
 
@@ -18,5 +20,9 @@ export class GlobalService {
         this.checkFormErrors(c);
       });
     });
+  }
+
+  showPassword() {
+    this.show_password = !this.show_password;
   }
 }

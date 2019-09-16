@@ -50,4 +50,10 @@ mat-card-content {
   justify-content: flex-end;
 }
 
+.fa-eye {
+  position: absolute;
+  right: 5px;
+}
+
+
 

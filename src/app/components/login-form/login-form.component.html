@@ -11,7 +11,8 @@
 
       <p>
         <mat-form-field>
-          <input type="password" matInput placeholder="Password" formControlName="password">
+          <input [type]="globalService.show_password  ? 'text' : 'password'" matInput placeholder="Password" formControlName="password">
+          <i class="fa fa-eye" (click)="showPassword()"></i>
         </mat-form-field>
         <app-error-message [object]="form.get('password')"></app-error-message>
       </p>
