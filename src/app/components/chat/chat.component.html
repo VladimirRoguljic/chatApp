@@ -7,11 +7,14 @@
   <h3 style="text-align: center" *ngIf="authService.user | async">Welcome {{ (authService.user | async)?.email}}</h3>
 </div>
 
+<app-user-list></app-user-list>
 <app-feed></app-feed>
-<div>
+<div class="input-group">
   <label for="message_box"></label>
-  <input id="message_box" type="text" (keypress)="handleMessage($event)" [(ngModel)]="message">
-  <button mat-button  type="button" (click)="send()">Send</button>
+  <input id="message_box" type="text" autocomplete="off" (keypress)="handleMessage($event)" [(ngModel)]="message" class="form-control">
+  <span class="input-group-btn">
+       <button mat-button  type="button" (click)="send()">Send</button>
+   </span>
 </div>
 
 

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {Router} from "@angular/router";
 import * as firebase from 'firebase/app';
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable, Subscription} from "rxjs";
 import Swal from 'sweetalert2';
 import {StorageService} from "./storage.service";
 import {AngularFireDatabase} from '@angular/fire/database';
@@ -15,12 +15,16 @@ export class AuthService {
   public user: Observable<firebase.User>;
   public userDetails: firebase.User = null;
   public authState: any;
+  currentuserUId$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  currentuserUId:string;
+  subscription: Subscription;
 
   constructor(private _firebaseAuth: AngularFireAuth,
               private db: AngularFireDatabase,
               private router: Router) {
 
     this.user = _firebaseAuth.authState;
+
   }
 
 
@@ -31,7 +35,6 @@ export class AuthService {
   signUp(email: string, password: string, displayName: string) {
     return this._firebaseAuth.auth.createUserWithEmailAndPassword(email, password).then(user => {
       this.authState = user;
-      console.log(this.authState);
       this.sendVerificationMail();
       this.setUserData(email, displayName);
       Swal.fire({
@@ -60,9 +63,9 @@ export class AuthService {
         });
       }
       if (user.user.emailVerified === true) {
-        // const status = 'online';
-        // this.setStatus(status);
+        const status = 'online';
         this.authState = user;
+        this.setStatus(status);
         StorageService.setDataInLocalStorage('userDetails', JSON.stringify(user));
         this.router.navigate(['chat-place']);
       }
@@ -77,8 +80,7 @@ export class AuthService {
 
   setUserData(email: string, displayName: string) {
     const path = `users/${this.currentUserID}`;
-    console.log(path);
-    const status = 'online';
+    const status = 'subscribed';
     const data = {
       email: email,
       displayName: displayName,
@@ -92,7 +94,7 @@ export class AuthService {
     const data = {
       status: status
     };
-    // this.db.object(path).update(data).catch(error => console.log(error));
+    this.db.object(path).update(data).catch(error => console.log(error));
   }
 
   isLoggedIn() {
@@ -116,13 +118,26 @@ export class AuthService {
     return this._firebaseAuth.auth.sendPasswordResetEmail(email, {url: 'http://localhost:4200/login'});
   }
 
-  logout() {
-    this._firebaseAuth.auth.signOut()
-      .then(() => this.router.navigate(['/']));
+  logout()  {
+    this.user = this._firebaseAuth.authState;
+    const status = 'offline';
+    this.subscription = this.user.subscribe(user => {
+      this.currentuserUId$.next(user.uid);
+      this.currentuserUId = this.currentuserUId$.value;
+      const path = `users/${this.currentuserUId}`;
+      const data = {
+        status: status
+      };
+      this.db.object(path).update(data).catch(error => console.log(error));
+    });
+    this._firebaseAuth.auth.signOut().then(() => {
+        this.subscription.unsubscribe();
+        this.router.navigate(['/'])
+      });
   }
 
   authUser() {
-    return this.user;
+    return this.user
   }
 
 

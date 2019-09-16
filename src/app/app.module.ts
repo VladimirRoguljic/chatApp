@@ -25,6 +25,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { FeedComponent } from './components/feed/feed.component';
 import { MessageComponent } from './components/message/message.component';
 import { UserListComponent } from './components/user-list/user-list.component';
+import { UserItemComponent } from './components/user-item/user-item.component';
 const appRoutes: Routes = [
   {
     path: '',
@@ -65,7 +66,8 @@ const appRoutes: Routes = [
     UsermanagmentComponent,
     FeedComponent,
     MessageComponent,
-    UserListComponent
+    UserListComponent,
+    UserItemComponent
   ],
   imports: [
     BrowserModule,
