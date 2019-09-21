@@ -40,6 +40,12 @@ h1 {
   display: flex;
 }
 
+.feedWrap {
+  width: 80%;
+  border-left: 6px solid green;
+  height: 100%;
+}
+
 .userListWrapper {
   background-color: #2A2845;
   color: #fff;
@@ -79,4 +85,16 @@ h1 {
 
 app-user-list {
   width: 100%;
+}
+
+.example-container {
+  width: 100%;
+  height: 100%;
+  margin: 10px;
+  border: 1px solid #555;
+}
+
+.input-group {
+  width: 78%;
+  margin: auto;
 }

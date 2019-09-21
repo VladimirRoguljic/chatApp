@@ -1,0 +1,12 @@
+/*.mat-radio-button ~ .mat-radio-button {*/
+  /*margin-left: 16px;*/
+/*}*/
+label {
+  display: block;
+}
+
+.fa-remove:before, .fa-close:before, .fa-times:before {
+  content: "\f00d";
+  cursor: pointer;
+  color: dodgerblue;
+}

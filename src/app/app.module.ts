@@ -14,7 +14,6 @@ import {AuthService} from "./services/auth.service";
 import {RouterModule, Routes} from "@angular/router";
 import {ChatComponent} from './components/chat/chat.component';
 import {ChatGuard} from "./guards/chat.guard";
-import { HomepageComponent } from './components/homepage/homepage.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { UsermanagmentComponent } from './components/usermanagment/usermanagment.component';
@@ -26,29 +25,48 @@ import { FeedComponent } from './components/feed/feed.component';
 import { MessageComponent } from './components/message/message.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { UserItemComponent } from './components/user-item/user-item.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import {MAT_DIALOG_DEFAULT_OPTIONS} from "@angular/material";
+import { DialogdataComponent } from './components/dialogdata/dialogdata.component';
+import { SelectedRoomComponent } from './components/selected-room/selected-room.component';
+
+
 const appRoutes: Routes = [
   {
     path: '',
-    component: HomepageComponent,
+    component: AppComponent,
+    children: [
+      {
+        path: 'login',
+        component: LoginFormComponent
+      },
+      {
+        path: 'sign-up',
+        component: SignUpComponent
+      },
+      {
+        path: 'userMgmt',
+        component: UsermanagmentComponent
+      },
+      {
+        path: 'chat-place',
+        component: ChatComponent,
+        canActivate: [ChatGuard]
+      },
+      {
+        path: 'user-profile',
+        component: UserProfileComponent,
+        canActivate: [ChatGuard]
+      },
+      {
+        path: 'current_room/:title',
+        component: SelectedRoomComponent
+      }
+    ]
   },
 
-  {
-    path: 'login',
-    component: LoginFormComponent
-  },
-  {
-    path: 'sign-up',
-    component: SignUpComponent
-  },
-  {
-    path: 'userMgmt',
-    component: UsermanagmentComponent
-  },
-  {
-    path: 'chat-place',
-    component: ChatComponent,
-    canActivate: [ChatGuard]
-  },
+
   {path: '404', component: NotfoundComponent},
   {path: '**', redirectTo: '/404'}
 ];
@@ -60,14 +78,17 @@ const appRoutes: Routes = [
     LoginFormComponent,
     ErrorMessageComponent,
     ChatComponent,
-    HomepageComponent,
     NotfoundComponent,
     SignUpComponent,
     UsermanagmentComponent,
     FeedComponent,
     MessageComponent,
     UserListComponent,
-    UserItemComponent
+    UserItemComponent,
+    NavbarComponent,
+    UserProfileComponent,
+    DialogdataComponent,
+    SelectedRoomComponent
   ],
   imports: [
     BrowserModule,
@@ -79,7 +100,9 @@ const appRoutes: Routes = [
     AngularFireModule.initializeApp(environment.firebase, 'angular-auth-firebase'),
     AngularFireAuthModule,
     AngularFirestoreModule
-
+  ],
+  entryComponents: [
+    DialogdataComponent
   ],
   providers: [GlobalService, AuthService, ChatGuard, StorageService, ChatService, AngularFireDatabase],
   bootstrap: [AppComponent]

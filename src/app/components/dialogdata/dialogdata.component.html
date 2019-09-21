@@ -1,0 +1,28 @@
+<h1 style="color: black" mat-dialog-title>Available rooms</h1>
+<div mat-dialog-content>You can choose available room or create new one:
+  <ul>
+    <li *ngFor="let room of rooms | async">
+      <a [routerLink]="['/current_room', (room.title).toLowerCase()]">{{room.title}}</a>
+      <span style="float: right"><i class="fa fa-times" (click)="deleteRoom(room.key)"></i></span>
+  </ul>
+  <button mat-button (click)="showRoomForm=!showRoomForm">Create new room</button>
+  <form [formGroup]="form" (ngSubmit)="onCreateNewRoom()">
+  <ul *ngIf="showRoomForm" >
+    <li>
+      <mat-form-field style="width: 100px">
+        <input matInput formControlName="name"  placeholder="Room name">
+      </mat-form-field>
+      <app-error-message [object]="form.get('name')"></app-error-message>
+    </li>
+    <li>
+      <label for="room_status">Choose room status:</label>
+      <mat-radio-group id="room_status"  aria-labelledby="room_status" formControlName="status">
+        <mat-radio-button   value="public">Public room</mat-radio-button>
+        <mat-radio-button  value="private">Private room</mat-radio-button>
+      </mat-radio-group>
+      <app-error-message [object]="form.get('status')"></app-error-message>
+    </li>
+    <li><button type="submit" mat-button>Create</button></li>
+  </ul>
+  </form>
+</div>

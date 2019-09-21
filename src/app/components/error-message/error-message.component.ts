@@ -31,6 +31,10 @@ export class ErrorMessageComponent implements OnInit {
         return 'This is not valid email address'
       },
 
+      pattern: () => {
+        return 'special characters and numbers are not allowed'
+      }
+
     };
 
   }

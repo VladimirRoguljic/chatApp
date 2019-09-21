@@ -12,6 +12,10 @@ h1,h2,h3,h4,h5 {
   color: whitesmoke;
 }
 
+ul li {
+  list-style-type: none;
+}
+
 button {
   margin-left: 10px;
 }
@@ -53,6 +57,14 @@ mat-card-content {
 .fa-eye, .fa-eye-slash {
   position: absolute;
   right: 5px;
+}
+
+form span {
+  margin-right: 15px;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
 }
 
 

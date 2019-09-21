@@ -1,6 +1,10 @@
 .feed{
   display: flex;
   flex-direction: column;
+  float: right;
+  width: 90%;
+  padding: 10px;
+  height: 100%;
 }
 
 .message{

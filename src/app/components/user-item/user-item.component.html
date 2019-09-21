@@ -1,7 +1,5 @@
 <div class="userItem">
-  <span class="status" [ngClass]=(user.status)>
+  <span [ngClass]="user.status === 'online' ? 'status-online' : 'status-offline'">
   </span>
-  <span class="userName">
-    {{user.displayName}}
-  </span>
+  <span class="userName">{{user.displayName}}</span>
 </div>

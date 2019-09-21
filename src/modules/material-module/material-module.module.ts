@@ -1,16 +1,22 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { MatDialogModule} from '@angular/material'
 import {
   MatCardModule,
   MatInputModule,
-  MatButtonModule
+  MatButtonModule,
+  MatSidenavModule,
 } from "@angular/material";
+import {MatRadioModule} from '@angular/material/radio'
 
 const modules = [
   MatCardModule,
   MatInputModule,
-  MatButtonModule
+  MatButtonModule,
+  MatSidenavModule,
+  MatDialogModule,
+  MatRadioModule
 ];
+
 
 
 @NgModule({

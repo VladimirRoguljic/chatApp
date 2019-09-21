@@ -1,20 +1,17 @@
-<div style="float: right">
-  <button type="button" class="btn-danger" (click)="logout()">
-    Log out
-  </button>
-</div>
-<div>
-  <h3 style="text-align: center" *ngIf="authService.user | async">Welcome {{ (authService.user | async)?.email}}</h3>
+<div class="userList">
+  <app-user-list></app-user-list>
 </div>
 
-<app-user-list></app-user-list>
-<app-feed></app-feed>
+<div>
+  <app-feed></app-feed>
+</div>
+
 <div class="input-group">
   <label for="message_box"></label>
-  <input id="message_box" type="text" autocomplete="off" (keypress)="handleMessage($event)" [(ngModel)]="message" class="form-control">
-  <span class="input-group-btn">
-       <button mat-button  type="button" (click)="send()">Send</button>
-   </span>
+  <textarea id="message_box" type="text"
+         placeholder="Chat here" autocomplete="off"
+            (keypress)="handleMessage($event)" [(ngModel)]="message" class="form-control"></textarea>
+        <button mat-button type="button" (click)="send()">Send</button>
 </div>
 
 

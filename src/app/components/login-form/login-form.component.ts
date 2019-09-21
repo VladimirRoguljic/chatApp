@@ -1,9 +1,9 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {GlobalService} from "../../services/global.service";
 import {AuthService} from "../../services/auth.service";
 import { AngularFireAuth } from 'angularfire2/auth';
-import Swal from 'sweetalert2';
+import {SwalMessages} from "../../models/swal-messages";
 
 @Component({
   selector: 'app-login-form',
@@ -45,16 +45,10 @@ export class LoginFormComponent implements OnInit {
   resetPassword() {
     let email = this.form.get('email').value;
     if(!email) {
-      Swal.fire({
-        title: 'Type in your email first',
-        type: 'warning',
-      })
+      this.globalService.getSwalMessage(SwalMessages.email_check, 'warning');
     }
     this.authService.resetPasswordInit(email).then( () => {
-      Swal.fire({
-        title: 'A password reset link has been sent to your email address',
-        type: 'success'
-      })
+       this.globalService.getSwalMessage(SwalMessages.password_reset, 'success')
     })
   }
 

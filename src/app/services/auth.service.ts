@@ -5,7 +5,10 @@ import * as firebase from 'firebase/app';
 import {BehaviorSubject, Observable, Subscription} from "rxjs";
 import Swal from 'sweetalert2';
 import {StorageService} from "./storage.service";
-import {AngularFireDatabase} from '@angular/fire/database';
+import {AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireList } from '@angular/fire/database';
+import {NewRoom} from "../models/new-room";
+
 
 
 @Injectable({
@@ -16,15 +19,16 @@ export class AuthService {
   public userDetails: firebase.User = null;
   public authState: any;
   currentuserUId$: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  currentuserUId:string;
+  currentuserUId: string;
   subscription: Subscription;
+  rooms$: AngularFireList<any>;
 
   constructor(private _firebaseAuth: AngularFireAuth,
-              private db: AngularFireDatabase,
+              public db: AngularFireDatabase,
+              private  afAuth: AngularFireAuth,
               private router: Router) {
-
     this.user = _firebaseAuth.authState;
-
+    this.rooms$ = this.db.list('/rooms')
   }
 
 
@@ -67,7 +71,7 @@ export class AuthService {
         this.authState = user;
         this.setStatus(status);
         StorageService.setDataInLocalStorage('userDetails', JSON.stringify(user));
-        this.router.navigate(['chat-place']);
+        this.router.navigate(['./chat-place']);
       }
     }).catch(err => {
       console.log(err);
@@ -110,7 +114,9 @@ export class AuthService {
 
 
   getAuth() {
+    this.currentuserUId = this._firebaseAuth.auth.currentUser.uid;
     return this._firebaseAuth.auth;
+
   }
 
 
@@ -118,7 +124,7 @@ export class AuthService {
     return this._firebaseAuth.auth.sendPasswordResetEmail(email, {url: 'http://localhost:4200/login'});
   }
 
-  logout()  {
+  logout() {
     this.user = this._firebaseAuth.authState;
     const status = 'offline';
     this.subscription = this.user.subscribe(user => {
@@ -131,14 +137,27 @@ export class AuthService {
       this.db.object(path).update(data).catch(error => console.log(error));
     });
     this._firebaseAuth.auth.signOut().then(() => {
-        this.subscription.unsubscribe();
-        this.router.navigate(['/'])
-      });
+      this.subscription.unsubscribe();
+      this.authState = null;
+      this.router.navigate(['/']);
+    });
   }
 
   authUser() {
-    return this.user
+    return this.user;
   }
+
+  public data: Array<object> = [{}];
+
+  createNewChatRoom(data: NewRoom): void {
+    this.getAuth();
+    this.rooms$.push(data)
+  }
+
+  getChatRooms(): any {
+    return this.db.list('/rooms');
+  }
+
 
 
 }
