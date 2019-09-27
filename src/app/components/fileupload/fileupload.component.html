@@ -1,0 +1,7 @@
+<label>File name: {{file ? file.name : 'or drag and drop file here' }} </label>
+<p>
+  <img id="imageContainer" alt="upload-zone" src="../../../assets/avatar/img_avatar.png" width="200" height="200">
+  <button type="button" mat-raised-button (click)="fileInput.click()">Choose Avatar</button>
+  <input  hidden #fileInput type="file"  accept="image/gif, image/jpeg, image/png">
+</p>
+<app-file-upload-progress [progress]="uploadService.uploadPercent"></app-file-upload-progress>

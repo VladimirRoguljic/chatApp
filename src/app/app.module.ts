@@ -27,10 +27,17 @@ import { UserListComponent } from './components/user-list/user-list.component';
 import { UserItemComponent } from './components/user-item/user-item.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import {MAT_DIALOG_DEFAULT_OPTIONS} from "@angular/material";
 import { DialogdataComponent } from './components/dialogdata/dialogdata.component';
 import { SelectedRoomComponent } from './components/selected-room/selected-room.component';
-
+import { MainNavComponent } from './components/main-nav/main-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { ChatInputComponent } from './components/chat-input/chat-input.component';
+import { DropzoneDirective } from './directives/dropzone.directive';
+import { UploadTaskComponent } from './components/upload-task/upload-task.component';
+import { AngularFireStorageModule, StorageBucket } from '@angular/fire/storage';
+import {UploadService} from "./services/upload.service";
+import { FileUploadProgressComponent } from './components/file-upload-progress/file-upload-progress.component';
+import { FileuploadComponent } from './components/fileupload/fileupload.component';
 
 const appRoutes: Routes = [
   {
@@ -62,14 +69,14 @@ const appRoutes: Routes = [
       {
         path: 'current_room/:title',
         component: SelectedRoomComponent
-      }
+      },
     ]
   },
-
 
   {path: '404', component: NotfoundComponent},
   {path: '**', redirectTo: '/404'}
 ];
+
 
 
 @NgModule({
@@ -88,7 +95,13 @@ const appRoutes: Routes = [
     NavbarComponent,
     UserProfileComponent,
     DialogdataComponent,
-    SelectedRoomComponent
+    SelectedRoomComponent,
+    MainNavComponent,
+    ChatInputComponent,
+    DropzoneDirective,
+    UploadTaskComponent,
+    FileUploadProgressComponent,
+    FileuploadComponent
   ],
   imports: [
     BrowserModule,
@@ -99,12 +112,16 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     AngularFireModule.initializeApp(environment.firebase, 'angular-auth-firebase'),
     AngularFireAuthModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    AngularFireStorageModule,
+    LayoutModule
   ],
   entryComponents: [
     DialogdataComponent
   ],
-  providers: [GlobalService, AuthService, ChatGuard, StorageService, ChatService, AngularFireDatabase],
+  providers: [GlobalService, AuthService, ChatGuard, StorageService, ChatService, AngularFireDatabase,
+    UploadService,
+    DropzoneDirective, {provide: StorageBucket, useValue: 'chatapp-project-f5ada.appspot.com'}],
   bootstrap: [AppComponent]
 })
 export class AppModule {

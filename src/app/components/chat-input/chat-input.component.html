@@ -1,0 +1,7 @@
+<div class="input-group">
+  <label for="message_box"></label>
+  <textarea id="message_box" type="text"
+            placeholder="Chat here" autocomplete="off"
+            (keypress)="handleMessage($event)" [(ngModel)]="message" class="form-control"></textarea>
+  <button mat-button type="button" (click)="send()">Send</button>
+</div>

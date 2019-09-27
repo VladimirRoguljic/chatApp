@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { MatDialogModule} from '@angular/material'
+import {MatDialogModule, MatIconModule, MatListModule, MatSelectModule, MatToolbarModule} from '@angular/material';
 import {
   MatCardModule,
   MatInputModule,
@@ -7,6 +7,8 @@ import {
   MatSidenavModule,
 } from "@angular/material";
 import {MatRadioModule} from '@angular/material/radio'
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatFormFieldModule} from '@angular/material/form-field'
 
 const modules = [
   MatCardModule,
@@ -14,7 +16,16 @@ const modules = [
   MatButtonModule,
   MatSidenavModule,
   MatDialogModule,
-  MatRadioModule
+  MatRadioModule,
+  MatGridListModule,
+  MatFormFieldModule,
+  MatToolbarModule,
+  MatButtonModule,
+  MatSidenavModule,
+  MatIconModule,
+  MatListModule,
+  MatSelectModule,
+  MatInputModule
 ];
 
 

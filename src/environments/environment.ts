@@ -10,9 +10,10 @@ export const environment = {
     authDomain: "chatapp-project-f5ada.firebaseapp.com",
     databaseURL: "https://chatapp-project-f5ada.firebaseio.com",
     projectId: "chatapp-project-f5ada",
-    storageBucket: "",
+    storageBucket: "chatapp-project-f5ada.appspot.com",
     messagingSenderId: "465716890228",
-    appId: "1:465716890228:web:b152c33540ca22aaeb5f21"
+    appId: "1:465716890228:web:b152c33540ca22aaeb5f21",
+
   }
 };
 

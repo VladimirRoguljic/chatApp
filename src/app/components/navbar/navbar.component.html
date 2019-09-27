@@ -1,12 +1,12 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
   <a class="navbar-brand" routerLink="/">ChatApp</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" (click)="openHamburger()" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarCollapse">
+  <div class="collapse navbar-collapse" id="navbarCollapse" [ngStyle]="{'display' : showMenu ?  'block' : 'none'}">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a *ngIf="authUser" class="nav-link" routerLink="/chat-place">BaseChat <span class="sr-only">(current)</span></a>
+        <a *ngIf="authUser" class="nav-link" routerLink="/chat-place">Lobby<span class="sr-only">(current)</span></a>
       </li>
     </ul>
     <form class="form-inline mt-2 mt-md-0">
@@ -14,6 +14,7 @@
       <button *ngIf="!authUser" type="button"   routerLink="/sign-up" class="btn btn-primary">SignUp</button>
       <span *ngIf="authUser"><i class="fa fa-comment dots fa-2x" (click)="openDialog()"></i></span>
       <span *ngIf="authUser" routerLink="/user-profile"><i class="fa fa-cog fa-2x"></i></span>
+      <span *ngIf="authUser"><img src="{{(profileUrl | async)?.avatarUrl }}" alt="Avatar" width="42" height="42"></span>
       <span *ngIf="authUser"><button  type="button" class="btn-danger" (click)="logout()">Log out</button></span>
     </form>
   </div>

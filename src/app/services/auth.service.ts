@@ -6,8 +6,6 @@ import {BehaviorSubject, Observable, Subscription} from "rxjs";
 import Swal from 'sweetalert2';
 import {StorageService} from "./storage.service";
 import {AngularFireDatabase } from '@angular/fire/database';
-import { AngularFireList } from '@angular/fire/database';
-import {NewRoom} from "../models/new-room";
 
 
 
@@ -21,14 +19,12 @@ export class AuthService {
   currentuserUId$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   currentuserUId: string;
   subscription: Subscription;
-  rooms$: AngularFireList<any>;
 
   constructor(private _firebaseAuth: AngularFireAuth,
               public db: AngularFireDatabase,
               private  afAuth: AngularFireAuth,
               private router: Router) {
     this.user = _firebaseAuth.authState;
-    this.rooms$ = this.db.list('/rooms')
   }
 
 
@@ -70,6 +66,7 @@ export class AuthService {
         const status = 'online';
         this.authState = user;
         this.setStatus(status);
+        this.isLoggedIn();
         StorageService.setDataInLocalStorage('userDetails', JSON.stringify(user));
         this.router.navigate(['./chat-place']);
       }
@@ -115,8 +112,7 @@ export class AuthService {
 
   getAuth() {
     this.currentuserUId = this._firebaseAuth.auth.currentUser.uid;
-    return this._firebaseAuth.auth;
-
+    return  this._firebaseAuth.auth;
   }
 
 
@@ -146,18 +142,5 @@ export class AuthService {
   authUser() {
     return this.user;
   }
-
-  public data: Array<object> = [{}];
-
-  createNewChatRoom(data: NewRoom): void {
-    this.getAuth();
-    this.rooms$.push(data)
-  }
-
-  getChatRooms(): any {
-    return this.db.list('/rooms');
-  }
-
-
 
 }

@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import {ChatMessage} from "../models/chat-message";
 import * as moment from 'moment/moment';
 import * as firebase from 'firebase/app';
+import {NewRoom} from "../models/new-room";
+import {AuthService} from "./auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +15,14 @@ import * as firebase from 'firebase/app';
 export class ChatService {
   public user: firebase.User;
   chatMessages: AngularFireList<any>;
-  // chatMessage: ChatMessage;
+  rooms$: AngularFireList<any>;
   userName: Observable<string>;
   moment;
 
   constructor(private db: AngularFireDatabase,
+              private authService: AuthService,
               private  afAuth: AngularFireAuth) {
+    this.rooms$ = this.db.list('/rooms');
     this.moment = moment();
     this.afAuth.authState.subscribe(auth => {
       if (auth !== undefined && auth !== null) {
@@ -66,5 +70,22 @@ export class ChatService {
     const now = new Date();
     const timesent = moment(now).format('DD/MM/YYYY, h:mm:ss a');
     return timesent;
+  }
+
+  getChatRooms(): any {
+    return this.db.list('/rooms');
+  }
+
+  deleteChatRoom(key: string): void {
+    this.rooms$.remove(key)
+  }
+
+  createNewChatRoom(data: NewRoom): void {
+    this.authService.getAuth();
+    this.rooms$.push(data)
+  }
+
+  updateChatRoom(key: string, update_object: object): void {
+    this.rooms$.update(key, update_object)
   }
 }

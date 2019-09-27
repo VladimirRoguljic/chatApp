@@ -1,3 +1,23 @@
-<p>
-  user-profile works!
-</p>
+<mat-card>
+  <mat-card-title>User profile</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="profileFormGroup" (ngSubmit)="onUploadAvatar(profileFormGroup.value)">
+      <p>
+        <label for="name">Edit your display name</label>
+        <mat-form-field>
+          <input id="name" formControlName="displayName" type="text" matInput placeholder="Edit name">
+        </mat-form-field>
+        <app-error-message [object]="profileFormGroup.get('displayName')"></app-error-message>
+      </p>
+      <app-fileupload formControlName="file"></app-fileupload>
+      <div class="button">
+        <button type="submit" mat-button>Submit</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+
+
+
+

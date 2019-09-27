@@ -33,6 +33,8 @@ export class GlobalService {
     });
   }
 
+
+
   showPassword() {
     this.show_password = !this.show_password;
   }

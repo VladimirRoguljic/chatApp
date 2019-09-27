@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 
+
 @Component({
   selector: 'app-selected-room',
   templateUrl: './selected-room.component.html',
@@ -8,8 +9,8 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class SelectedRoomComponent implements OnInit {
   room_name: string;
-  constructor(private snapshot: ActivatedRoute) {
 
+  constructor(private snapshot: ActivatedRoute) {
     this.snapshot.params.subscribe(params =>{
          this.room_name = params.title
     })

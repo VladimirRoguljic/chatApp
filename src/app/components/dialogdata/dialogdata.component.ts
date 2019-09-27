@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from "../../services/auth.service";
 import { AngularFireList } from '@angular/fire/database';
 import {NewRoom} from "../../models/new-room";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {GlobalService} from "../../services/global.service";
 import {Observable} from "rxjs";
 import {map} from "rxjs/internal/operators";
 import {SwalMessages} from "../../models/swal-messages";
+import {ChatService} from "../../services/chat.service";
 
 
 
@@ -21,10 +21,13 @@ export class DialogdataComponent implements OnInit {
   rooms$: AngularFireList<NewRoom[]>;
   rooms: Observable<any[]>;
   form: FormGroup;
-  constructor(private authService: AuthService,
+  index: number;
+  roomUpdate: boolean = false;
+  updateName: FormGroup;
+  constructor(private chatSerivce: ChatService,
               private _global: GlobalService,
               private fb: FormBuilder) {
-    this.rooms$ =  this.authService.getChatRooms();
+    this.rooms$ =  this.chatSerivce.getChatRooms();
     this.rooms = this.rooms$.snapshotChanges().pipe(
       map(changes =>
         changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
@@ -34,7 +37,13 @@ export class DialogdataComponent implements OnInit {
          name: ['', Validators.compose([Validators.required,
            Validators.maxLength(10), Validators.pattern('^[a-zA-Z]+$')])],
          status: ['', Validators.required]
-    })
+    });
+
+    this.updateName = new FormGroup({
+        name: new FormControl('', Validators.compose([Validators.required,
+          Validators.maxLength(10), Validators.pattern('^[a-zA-Z]+$')]))
+      }
+    )
   }
 
   get roomStatus() {
@@ -44,6 +53,12 @@ export class DialogdataComponent implements OnInit {
   get roomName() {
     return this.form.get('name').value
   }
+
+  get UpdateName() {
+    return this.updateName.get('name').value
+  }
+
+
 
   ngOnInit() {
   }
@@ -55,7 +70,7 @@ export class DialogdataComponent implements OnInit {
           title: this.roomName,
           status: this.roomStatus
         };
-        this.authService.createNewChatRoom(data);
+        this.chatSerivce.createNewChatRoom(data);
         this.name = '';
       }
   }
@@ -65,11 +80,28 @@ export class DialogdataComponent implements OnInit {
       .then(result => {
           if(result.value) {
             this._global.getSwalMessage(SwalMessages.deleted_room, 'success');
-            this.rooms$.remove(key)
+            this.chatSerivce.deleteChatRoom(key)
           } else if(result.dismiss) {
             this._global.getSwalMessage(SwalMessages.cancel, 'error')
           }
       })
+  }
+
+  updateChatRoom(key: string, event) {
+    if(this.updateName.invalid) {
+      return this._global.checkFormErrors(this.updateName)
+    } else {
+       if(event.keyCode === 13 || event.onclick) {
+         this.chatSerivce.updateChatRoom(key, {title: this.UpdateName});
+         this._global.getSwalMessage(SwalMessages.update_room, 'success');
+         this.roomUpdate = !this.roomUpdate
+       }
+    }
+  }
+
+  returnIndex(index: number): number {
+    this.index = index;
+    return this.index
   }
 
   // static generateRoomID(): any {

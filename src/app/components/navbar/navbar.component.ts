@@ -3,25 +3,45 @@ import {AuthService} from "../../services/auth.service";
 import {StorageService} from "../../services/storage.service";
 import {MatDialog} from "@angular/material";
 import {DialogdataComponent} from "../dialogdata/dialogdata.component";
-
+import {UploadService} from "../../services/upload.service";
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
+
 export class NavbarComponent implements OnInit {
   authUser: any;
-  data: Array<object>;
+  profileUrl: any;
+  showMenu: boolean = false;
+
+
   constructor(public authService: AuthService,
+              private uploadService: UploadService,
               public dialog: MatDialog) {
+
+
+
+
     this.authService.authUser().subscribe(user => {
       this.authUser = user;
-      this.data = this.authService.data
     });
+
+    if(this.authService.isLoggedIn()) {
+      this.profileUrl = this.uploadService.getUploadedAvatar() ?
+        this.uploadService.getUploadedAvatar() : this.uploadService.downloadAvatar();
+    }  else {
+       this.profileUrl = null
+    }
+
   }
 
   ngOnInit() {
+  }
+
+  openHamburger() {
+    this.showMenu = !this.showMenu;
   }
 
   logout() {
@@ -33,8 +53,8 @@ export class NavbarComponent implements OnInit {
     this.dialog.open(DialogdataComponent, {
       width: '400px',
       height: 'auto',
-      data: this.data
     });
   }
+
 
 }

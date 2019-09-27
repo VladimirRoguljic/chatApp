@@ -1,9 +1,17 @@
 <h1 style="color: black" mat-dialog-title>Available rooms</h1>
-<div mat-dialog-content>You can choose available room or create new one:
+<div mat-dialog-content>Choose available room or create new one:
   <ul>
-    <li *ngFor="let room of rooms | async">
-      <a [routerLink]="['/current_room', (room.title).toLowerCase()]">{{room.title}}</a>
+    <li *ngFor="let room of rooms | async; let i = index">
+      <a [routerLink]="['/current_room', (room.title).toLowerCase() + '' + ' room']">{{room.title}}</a>
       <span style="float: right"><i class="fa fa-times" (click)="deleteRoom(room.key)"></i></span>
+      <span style="float: right"><i class="fa fa-pencil" (click)="roomUpdate=!roomUpdate; returnIndex(i)"></i></span>
+      <div *ngIf="roomUpdate && index === i">
+      <mat-form-field style="width: 100px" [formGroup]="updateName">
+        <input matInput formControlName="name" (keypress)="updateChatRoom(room.key, $event)" required  placeholder="Update room name">
+      </mat-form-field>
+      <app-error-message [object]="updateName.get('name')"></app-error-message>
+      </div>
+    </li>
   </ul>
   <button mat-button (click)="showRoomForm=!showRoomForm">Create new room</button>
   <form [formGroup]="form" (ngSubmit)="onCreateNewRoom()">
@@ -22,7 +30,9 @@
       </mat-radio-group>
       <app-error-message [object]="form.get('status')"></app-error-message>
     </li>
-    <li><button type="submit" mat-button>Create</button></li>
+    <li><span><button type="submit" mat-button>Create</button></span>
+        <span><button type="button" (click)="showRoomForm =!showRoomForm" mat-button color="warn">Cancel</button></span>
+    </li>
   </ul>
   </form>
 </div>
