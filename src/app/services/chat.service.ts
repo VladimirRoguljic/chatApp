@@ -42,10 +42,10 @@ export class ChatService {
     return this.db.object(path).valueChanges();
   }
 
+
   getUsers(): Observable<any> {
     const path = '/users';
     return this.db.list(path).valueChanges();
-    // return this.db.list(path, ref => ref.orderByChild('status').equalTo('online')).valueChanges()
   }
 
   sendMessage(msg: string) {
@@ -56,7 +56,8 @@ export class ChatService {
       message: msg,
       timeSent: timestamp,
       userName: this.userName,
-      email: email
+      email: email,
+      photoUrl: this.user.photoURL
     });
   }
 

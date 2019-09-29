@@ -2,6 +2,9 @@
      [ngClass]="{'isOwnMessageContainer':isOwnMessage}">
   <div class="messageData"
        [ngClass]="{'isOwnMessageData':isOwnMessage}">
+    <span>
+      <img src="{{profileUrl ? profileUrl : defaultUrl}}" alt="Avatar" width="42" height="42">
+    </span>
         <span class="sender"
               [ngClass]="{'isOwnSender':isOwnMessage}">
             {{ userName }}

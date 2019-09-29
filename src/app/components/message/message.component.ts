@@ -1,14 +1,16 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ChatMessage} from "../../models/chat-message";
 import {AuthService} from "../../services/auth.service";
 import {Subscription} from "rxjs";
+import {UploadService} from "../../services/upload.service";
+
 
 @Component({
   selector: 'app-message',
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.css']
 })
-export class MessageComponent implements OnInit, OnDestroy {
+export class MessageComponent implements OnInit {
   @Input() chatMessage: ChatMessage;
   userEmail: string;
   userName: string;
@@ -17,11 +19,22 @@ export class MessageComponent implements OnInit, OnDestroy {
   isOwnMessage: boolean;
   ownEmail: string;
   subscription: Subscription;
-  constructor(private authService: AuthService) {
-   this.subscription = this.authService.authUser().subscribe(user => {
-        // this.ownEmail = user.email ? user.email : '';
-        this.isOwnMessage = this.ownEmail === this.userEmail
-    })
+  profileUrl: string;
+  defaultUrl: string;
+
+  constructor(private authService: AuthService,
+              public uploadService: UploadService) {
+
+
+    this.subscription = this.authService.authUser().subscribe(user => {
+      if (user !== null) {
+        this.ownEmail = user.email ? user.email : '';
+        this.isOwnMessage = this.ownEmail === this.userEmail;
+      }
+    });
+
+    this.defaultUrl = '../../../assets/avatar/img_avatar.png';
+
   }
 
   ngOnInit(chatMessage = this.chatMessage) {
@@ -29,12 +42,8 @@ export class MessageComponent implements OnInit, OnDestroy {
     this.timeStamp = chatMessage.timeSent;
     this.userEmail = chatMessage.email;
     this.userName = chatMessage.userName;
+    this.profileUrl = chatMessage.photoUrl;
   }
 
-  ngOnDestroy() {
-    if(this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
 
 }

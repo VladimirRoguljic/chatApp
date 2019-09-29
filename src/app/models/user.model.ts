@@ -3,8 +3,8 @@ export class User {
   email?: string;
   username?: string;
   password?: string;
-  status: string;
-  displayName: string;
+  status?: string;
+  displayName?: string;
 
   constructor(init: any) {
     this.uid = init.uid;

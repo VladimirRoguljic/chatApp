@@ -29,6 +29,7 @@ export class UserProfileComponent implements OnInit {
     const file = event.file;
     const data = {displayName: event.displayName};
     this.uploadService.uploadAvatar(file, data);
+    this.profileFormGroup.reset();
   }
 
 }

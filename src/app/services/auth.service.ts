@@ -5,8 +5,8 @@ import * as firebase from 'firebase/app';
 import {BehaviorSubject, Observable, Subscription} from "rxjs";
 import Swal from 'sweetalert2';
 import {StorageService} from "./storage.service";
-import {AngularFireDatabase } from '@angular/fire/database';
-
+import {AngularFireDatabase} from '@angular/fire/database';
+import {UploadService} from "./upload.service";
 
 
 @Injectable({
@@ -20,11 +20,11 @@ export class AuthService {
   currentuserUId: string;
   subscription: Subscription;
 
-  constructor(private _firebaseAuth: AngularFireAuth,
-              public db: AngularFireDatabase,
+  constructor(public db: AngularFireDatabase,
+              private uploadService: UploadService,
               private  afAuth: AngularFireAuth,
               private router: Router) {
-    this.user = _firebaseAuth.authState;
+    this.user = afAuth.authState;
   }
 
 
@@ -33,7 +33,7 @@ export class AuthService {
   }
 
   signUp(email: string, password: string, displayName: string) {
-    return this._firebaseAuth.auth.createUserWithEmailAndPassword(email, password).then(user => {
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, password).then(user => {
       this.authState = user;
       this.sendVerificationMail();
       this.setUserData(email, displayName);
@@ -54,7 +54,7 @@ export class AuthService {
   }
 
   login(email, password) {
-    return this._firebaseAuth.auth.signInWithEmailAndPassword(email, password).then(user => {
+    return this.afAuth.auth.signInWithEmailAndPassword(email, password).then(user => {
       if (user.user.emailVerified !== true) {
         this.sendVerificationMail();
         Swal.fire({
@@ -66,7 +66,6 @@ export class AuthService {
         const status = 'online';
         this.authState = user;
         this.setStatus(status);
-        this.isLoggedIn();
         StorageService.setDataInLocalStorage('userDetails', JSON.stringify(user));
         this.router.navigate(['./chat-place']);
       }
@@ -100,28 +99,30 @@ export class AuthService {
 
   isLoggedIn() {
     let userDetails = JSON.parse(StorageService.getDataFromLocalStorage('userDetails'));
-    if (userDetails !== null || undefined) return true;
+    if (userDetails !== null || undefined) {
+      return true;
+    }
   }
 
 
   sendVerificationMail() {
-    return this._firebaseAuth.auth.currentUser.sendEmailVerification();
+    return this.afAuth.auth.currentUser.sendEmailVerification();
 
   }
 
 
   getAuth() {
-    this.currentuserUId = this._firebaseAuth.auth.currentUser.uid;
-    return  this._firebaseAuth.auth;
+    this.currentuserUId = this.afAuth.auth.currentUser.uid;
+    return this.afAuth.auth;
   }
 
 
   resetPasswordInit(email: string) {
-    return this._firebaseAuth.auth.sendPasswordResetEmail(email, {url: 'http://localhost:4200/login'});
+    return this.afAuth.auth.sendPasswordResetEmail(email, {url: 'http://localhost:4200/login'});
   }
 
   logout() {
-    this.user = this._firebaseAuth.authState;
+    this.user = this.afAuth.authState;
     const status = 'offline';
     this.subscription = this.user.subscribe(user => {
       this.currentuserUId$.next(user.uid);
@@ -132,7 +133,7 @@ export class AuthService {
       };
       this.db.object(path).update(data).catch(error => console.log(error));
     });
-    this._firebaseAuth.auth.signOut().then(() => {
+    this.afAuth.auth.signOut().then(() => {
       this.subscription.unsubscribe();
       this.authState = null;
       this.router.navigate(['/']);

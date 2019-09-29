@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import * as firebase from "firebase";
 import {StorageService} from "./storage.service";
 import {AngularFireDatabase} from '@angular/fire/database';
+import {AngularFireAuth} from "angularfire2/auth";
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +18,13 @@ export class UploadService {
   public uploadPercent: number;
 
   constructor(private storage: AngularFireStorage,
+              private  afAuth: AngularFireAuth,
               public db: AngularFireDatabase) {
+
   }
 
 
-  uploadAvatar(event, data): void{
+  uploadAvatar(event, displayName): void{
     let file = event;
     this.currentuserUId = JSON.parse(StorageService.getDataFromLocalStorage('userDetails')).user.uid;
     const filePath = `/users/${this.currentuserUId}/avatar`;
@@ -42,10 +45,11 @@ export class UploadService {
           size: file.size,
           avatarUrl: this.avatarUrl
         };
+        this.afAuth.auth.currentUser.updateProfile({photoURL: this.avatarUrl, displayName: displayName.displayName});
         this.db.object(filePath).update(data).catch(error => console.log(error));
       });
     });
-    this.db.object(fileNamePath).update(data).catch(error=>console.log(error))
+    this.db.object(fileNamePath).update(displayName).catch(error=>console.log(error))
 
   }
 

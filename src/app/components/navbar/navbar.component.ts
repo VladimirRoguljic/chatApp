@@ -22,18 +22,14 @@ export class NavbarComponent implements OnInit {
               public dialog: MatDialog) {
 
 
-
-
     this.authService.authUser().subscribe(user => {
       this.authUser = user;
+      if(this.authUser) {
+        this.profileUrl = this.uploadService.getUploadedAvatar() ?
+          this.uploadService.getUploadedAvatar() : this.uploadService.downloadAvatar();
+      }else  this.profileUrl = null
     });
 
-    if(this.authService.isLoggedIn()) {
-      this.profileUrl = this.uploadService.getUploadedAvatar() ?
-        this.uploadService.getUploadedAvatar() : this.uploadService.downloadAvatar();
-    }  else {
-       this.profileUrl = null
-    }
 
   }
 
